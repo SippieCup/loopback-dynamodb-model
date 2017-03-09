@@ -2,15 +2,15 @@
 
 Loopback Base Model
 
-* npm install loopback-base-model --save
+* npm install loopback-dynamo-model --save
 * within server/server.js add
-`require('./base-model') app`
+`require('loopback-dynamo-model')(app)`
 
 yourmodel.json
 
 ```
 name: "YourModel"
-base: "BaseModel"
+base: "DynamoModel"
 
 defaultMethods: [ 'find', 'create' ] // only enable find and create endpoint
 defaultMethods: 'all' // enable all default endpoints
