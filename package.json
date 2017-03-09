@@ -1,11 +1,15 @@
 {
-  "name": "loopback-base-model",
+  "name": "loopback-dynamo-model",
   "version": "1.0.0",
-  "description": "Loopback base model to provide which endpoints to share ",
+  "description": "Loopback dynamo model to provide which endpoints to share ",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "BoLaMN",
-  "license": "MIT"
+  "author": "Andrew Sidhu & BoLaMN",
+  "license": "MIT",
+  "repository": {
+    "type": "",
+    "url": ""
+  }
 }

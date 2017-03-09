@@ -7,30 +7,52 @@ module.exports = (Model) ->
     cb()
 
   count:
-    accepts:
-      arg: "where"
-      description: "Criteria to match model instances"
-      type: "object"
+    accepts: [
+      {
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+      {
+        arg: "where"
+        description: "Criteria to match model instances"
+        type: "object"
+      }
+    ]
     accessType: "READ"
     description: "Count instances of the model matched by where from the data source."
     http:
-      path: "/count"
+      path: "/:hashkey/count"
       verb: "get"
     returns:
       arg: "count"
       type: "number"
 
   create:
-    accepts:
-      arg: "data"
-      description: "Model instance data"
-      http:
-        source: "body"
-      type: "object"
+    accepts: [
+      {
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+      {
+        arg: "data"
+        description: "Model instance data"
+        http:
+          source: "body"
+        type: "object"
+      }
+    ]
     accessType: "WRITE"
     description: "Create a new instance of the model and persist it into the data source."
     http:
-      path: "/"
+      path: "/:hashkey"
       verb: "post"
     returns:
       arg: "data"
@@ -38,13 +60,25 @@ module.exports = (Model) ->
       type: Model.modelName
 
   deleteById:
-    accepts:
-      arg: "id"
-      description: "Model id"
+    accepts: [
+      {
+      arg: "hashkey",
+      description: "Model hashkey"
       http:
         source: "path"
       required: true
       type: "any"
+      }
+      {
+      arg: "sortkey",
+      description: "Model sortkey"
+      http:
+        source: "path"
+      required: true
+      type: "any"
+      }
+    ]
+
     accessType: "WRITE"
     aliases: [
       "destroyById"
@@ -52,7 +86,7 @@ module.exports = (Model) ->
     ]
     description: "Delete a model instance by id from the data source."
     http:
-      path: "/:id"
+      path: "/:hashkey/:sortkey"
       verb: "del"
     returns:
       arg: "count"
@@ -60,14 +94,25 @@ module.exports = (Model) ->
       type: "object"
 
   destroyAll:
-    accepts:
+    accepts: [
+      {
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+      {
       arg: "where"
       description: "filter.where object"
       type: "object"
+      }
+    ]
     accessType: "WRITE"
     description: "Delete all matching records."
     http:
-      path: "/"
+      path: "/:hashkey"
       verb: "del"
     returns:
       arg: "count"
@@ -77,20 +122,33 @@ module.exports = (Model) ->
     shared: false
 
   exists:
-    accepts:
-      arg: "id"
-      description: "Model id"
-      required: true
-      type: "any"
+    accepts:[
+      {
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+      {
+        arg: "sortkey",
+        description: "Model sortkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+    ]
     accessType: "READ"
     description: "Check whether a model instance exists in the data source."
     http: [
       {
-        path: "/:id/exists"
+        path: "/:hashkey/:sortkey/exists"
         verb: "get"
       }
       {
-        path: "/:id"
+        path: "/:hashkey/:sortkey"
         verb: "head"
       }
     ]
@@ -100,31 +158,22 @@ module.exports = (Model) ->
       arg: "exists"
       type: "boolean"
 
-  find:
-    accepts:
-      arg: "filter"
-      description: "Filter defining fields, where, include, order, offset, and limit"
-      type: "object"
-    accessType: "READ"
-    description: "Find all instances of the model matched by filter from the data source."
-    http:
-      path: "/"
-      verb: "get"
-    returns:
-      arg: "data"
-      root: true
-      type: [
-        Model.modelName
-      ]
-
   findById:
     accepts: [
       {
-        arg: "id"
-        description: "Model id"
+        arg: "hashkey",
+        description: "Model hashkey"
         http:
           source: "path"
         required: true
+        type: "any"
+      }
+      {
+        arg: "sortkey",
+        description: "Model sortkey"
+        http:
+          source: "path"
+        required: false
         type: "any"
       }
       {
@@ -135,9 +184,16 @@ module.exports = (Model) ->
     ]
     accessType: "READ"
     description: "Find a model instance by id from the data source."
-    http:
-      path: "/:id"
+    http: [
+      {
+        path: "/:hashkey"
+        verb: "get"
+      }
+      {
+      path: "/:hashkey/:sortkey"
       verb: "get"
+      }
+    ]
     rest:
       after: Model.convertNullToEmpty
     returns:
@@ -146,14 +202,25 @@ module.exports = (Model) ->
       type: Model.modelName
 
   findOne:
-    accepts:
-      arg: "filter"
-      description: "Filter defining fields, where, include, order, offset, and limit"
-      type: "object"
+    accepts: [
+      {
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+      {
+        arg: "filter"
+        description: "Filter defining fields, where, include, order, offset, and limit"
+        type: "object"
+      }
+    ]
     accessType: "READ"
     description: "Find first instance of the model matched by filter from the data source."
     http:
-      path: "/findOne"
+      path: "/:hashkey/findOne"
       verb: "get"
     rest:
       after: Model.convertNullToEmpty
@@ -164,12 +231,23 @@ module.exports = (Model) ->
 
   patchAttributes:
     isStatic: false
-    accepts:
-      arg: "data"
-      description: "An object of model property name/value pairs"
-      http:
-        source: "body"
-      type: "object"
+    accepts:[
+      {
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+      {
+        arg: "data"
+        description: "An object of model property name/value pairs"
+        http:
+          source: "body"
+        type: "object"
+      }
+    ]
     accessType: "WRITE"
     aliases: [
       "updateAttributes"
@@ -177,7 +255,7 @@ module.exports = (Model) ->
     description: "Patch attributes for a model instance and persist it into the data source."
     http: [
       {
-        path: "/"
+        path: "/:hashkey"
         verb: "patch"
       }
     ]
@@ -188,12 +266,23 @@ module.exports = (Model) ->
       type: Model.modelName
 
   patchOrCreate:
-    accepts:
-      arg: "data"
-      description: "Model instance data"
-      http:
-        source: "body"
-      type: "object"
+    accepts:[
+      {
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+      {
+        arg: "data"
+        description: "Model instance data"
+        http:
+          source: "body"
+        type: "object"
+      }
+    ]
     accessType: "WRITE"
     aliases: [
       "upsert"
@@ -202,7 +291,7 @@ module.exports = (Model) ->
     description: "Patch an existing model instance or insert a new one into the data source."
     http: [
       {
-        path: "/"
+        path: "/:hashkey"
         verb: "patch"
       }
     ]
@@ -214,8 +303,16 @@ module.exports = (Model) ->
   replaceById:
     accepts: [
       {
-        arg: "id"
-        description: "Model id"
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+      {
+        arg: "sortkey",
+        description: "Model sortkey"
         http:
           source: "path"
         required: true
@@ -233,7 +330,7 @@ module.exports = (Model) ->
     description: "Replace attributes for a model instance and persist it into the data source."
     http: [
       {
-        path: "/:id/replace"
+        path: "/:hashkey/:sortkey/replace"
         verb: "post"
       }
     ]
@@ -243,17 +340,28 @@ module.exports = (Model) ->
       type: Model.modelName
 
   replaceOrCreate:
-    accepts:
-      arg: "data"
-      description: "Model instance data"
-      http:
-        source: "body"
-      type: "object"
+    accepts: [
+      {
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+      {
+        arg: "data"
+        description: "Model instance data"
+        http:
+          source: "body"
+        type: "object"
+      }
+    ]
     accessType: "WRITE"
     description: "Replace an existing model instance or insert a new one into the data source."
     http: [
       {
-        path: "/replaceOrCreate"
+        path: "/:hashkey/replaceOrCreate"
         verb: "post"
       }
     ]
@@ -264,6 +372,14 @@ module.exports = (Model) ->
 
   updateAll:
     accepts: [
+      {
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
       {
         arg: "where"
         description: "Criteria to match model instances"
@@ -285,7 +401,7 @@ module.exports = (Model) ->
     ]
     description: "Update instances of the model matched by where from the data source."
     http:
-      path: "/update"
+      path: "/:hashkey/update"
       verb: "post"
     returns:
       arg: "count"
@@ -295,16 +411,28 @@ module.exports = (Model) ->
 
   findOrCreate:
     description: 'Find else create a new instance of the model and persist it into the data source'
-    accepts:
-      arg: 'data'
-      type: 'object'
-      required: true
-      http:
-        source: 'body'
+    accepts: [
+      {
+        arg: "hashkey",
+        description: "Model hashkey"
+        http:
+          source: "path"
+        required: true
+        type: "any"
+      }
+      {
+        arg: 'data'
+        type: 'object'
+        required: true
+        http:
+          source: 'body'
+      }
+    ]
+      
     returns:
       arg: 'data'
       type: Model.modelName
       root: true
     http:
       verb: 'post'
-      path: '/findOrCreate'
+      path: '/:hashkey/findOrCreate'

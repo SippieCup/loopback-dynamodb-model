@@ -4,12 +4,12 @@ module.exports = (app) ->
   registry = app.registry
 
   Model = registry.getModel 'Model'
-  BaseModel = Model.extend 'BaseModel'
+  DynamoModel = Model.extend 'DynamoModel'
 
-  registry.modelBuilder.mixins.define 'BaseRemoting', mixin
+  registry.modelBuilder.mixins.define 'DynamoRemoting', mixin
 
   throwNotAttached = (modelName, methodName) ->
-    throw new Error('Cannot call ' + modelName + '.' + methodName + '().' + ' The ' + methodName + ' method has not been setup.' + ' The BaseModel has not been correctly attached to a DataSource!')
+    throw new Error('Cannot call ' + modelName + '.' + methodName + '().' + ' The ' + methodName + ' method has not been setup.' + ' The DynamoModel has not been correctly attached to a DataSource!')
     return
 
   staticMethods = [
@@ -40,7 +40,7 @@ module.exports = (app) ->
     'reload'
   ]
 
-  addMethods = (methods, basePropert) ->
+  addMethods = (methods, baseProperty) ->
     methods.forEach (method) ->
       baseProperty[method] = ->
         throwNotAttached @modelName, method
@@ -48,8 +48,8 @@ module.exports = (app) ->
       return
     return
 
-  addMethods staticMethods, BaseModel
-  addMethods instanceMethods, BaseModel.prototype
+  addMethods staticMethods, DynamoModel
+  addMethods instanceMethods, DynamoModel.prototype
 
   aliasMethods =
     destroyAll: [ 'remove', 'deleteAll' ]
@@ -61,17 +61,17 @@ module.exports = (app) ->
     methods = aliasMethods[alias]
 
     methods.forEach (method) ->
-      BaseModel[method] = BaseModel[alias]
+      DynamoModel[method] = DynamoModel[alias]
 
-  BaseModel.setup = ->
+  DynamoModel.setup = ->
     Model.setup.call this
 
-    BaseModel = this
-    BaseModel.mixin 'BaseRemoting'
+    DynamoModel = this
+    DynamoModel.mixin 'DynamoRemoting'
 
-    BaseModel
+    DynamoModel
 
-  BaseModel.getIdName = ->
+  DynamoModel.getIdName = ->
     Model = this
 
     ds = Model.getDataSource()
@@ -80,7 +80,7 @@ module.exports = (app) ->
       ds.idName Model.modelName
     else 'id'
 
-  BaseModel::save = (options = {}, callback = ->) ->
+  DynamoModel::save = (options = {}, callback = ->) ->
     if typeof options is 'function'
       return @save {}, options
 
@@ -116,17 +116,20 @@ module.exports = (app) ->
       return
     return
 
-  BaseModel::getIdName = ->
-    @constructor.getIdName()
+  DynamoModel::getIdNames = ->
+    @constructor.getIdNames()
 
-  BaseModel::getId = ->
-    @[@getIdName()]
+  DynamoModel::getId = ->
+    @[@getIdNames()]
 
-  BaseModel::setId = (val) ->
-    @[@getIdName()] = val
+  DynamoModel::setId = (val) ->
+    idNames = @getIdNames()
+    @[idNames[0]] = val[0]
+    if val[1]
+      @[idNames[1]] = val[1]
     return
 
-  BaseModel.setup()
+  DynamoModel.setup()
 
-  BaseModel
+  DynamoModel
 
