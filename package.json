@@ -6,10 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Andrew Sidhu & BoLaMN",
+  "author": "Andrew Sidhu <asidhu1@gmail.com>",
+  "contributors": [{
+    "name": "BoLaMN"
+  }],
   "license": "MIT",
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "git",
+    "url": "https://github.com/SippieCup/loopback-dynamodb-model"
   }
 }
