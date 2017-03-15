@@ -247,14 +247,6 @@
         isStatic: false,
         accepts: [
           {
-            arg: "hashkey",
-            description: "Model hashkey",
-            http: {
-              source: "path"
-            },
-            required: true,
-            type: "any"
-          }, {
             arg: "data",
             description: "An object of model property name/value pairs",
             http: {
