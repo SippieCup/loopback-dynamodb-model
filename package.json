@@ -1,15 +1,17 @@
 {
   "name": "loopback-dynamo-model",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Loopback dynamo model to provide which endpoints to share ",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andrew Sidhu <asidhu1@gmail.com>",
-  "contributors": [{
-    "name": "BoLaMN"
-  }],
+  "contributors": [
+    {
+      "name": "BoLaMN"
+    }
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
