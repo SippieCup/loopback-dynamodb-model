@@ -37,7 +37,7 @@
       },
       create: {
         accepts: [
-          string, {
+          {
             arg: "data",
             description: "Model instance data",
             http: {
