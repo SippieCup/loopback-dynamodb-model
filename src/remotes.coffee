@@ -163,8 +163,6 @@ module.exports = (Model) ->
       {
         arg: "sortkey",
         description: "Model sortkey"
-        http:
-          source: "path"
         required: false
         type: "any"
       }
