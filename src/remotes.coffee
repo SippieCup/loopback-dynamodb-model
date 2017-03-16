@@ -342,14 +342,6 @@ module.exports = (Model) ->
   replaceOrCreate:
     accepts: [
       {
-        arg: "hashkey",
-        description: "Model hashkey"
-        http:
-          source: "path"
-        required: true
-        type: "any"
-      }
-      {
         arg: "data"
         description: "Model instance data"
         http:
@@ -361,7 +353,7 @@ module.exports = (Model) ->
     description: "Replace an existing model instance or insert a new one into the data source."
     http: [
       {
-        path: "/:hashkey/replaceOrCreate"
+        path: "/replaceOrCreate"
         verb: "post"
       }
     ]
