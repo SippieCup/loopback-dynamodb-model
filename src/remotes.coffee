@@ -33,7 +33,6 @@ module.exports = (Model) ->
 
   create:
     accepts: [
-      string
       {
         arg: "data"
         description: "Model instance data"
