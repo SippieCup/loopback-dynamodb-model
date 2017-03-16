@@ -4,7 +4,8 @@
   "description": "Loopback dynamo model to provide which endpoints to share ",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "coffee --compile --output dist/ src/"
   },
   "author": "Andrew Sidhu <asidhu1@gmail.com>",
   "contributors": [

@@ -247,6 +247,22 @@
         isStatic: false,
         accepts: [
           {
+            arg: "hashkey",
+            description: "Model hashkey",
+            http: {
+              source: "path"
+            },
+            required: true,
+            type: "any"
+          }, {
+            arg: "sortkey",
+            description: "Model sortkey",
+            http: {
+              source: "path"
+            },
+            required: true,
+            type: "any"
+          }, {
             arg: "data",
             description: "An object of model property name/value pairs",
             http: {
@@ -260,7 +276,7 @@
         description: "Patch attributes for a model instance and persist it into the data source.",
         http: [
           {
-            path: "/:hashkey",
+            path: "/:hashkey/:sortkey",
             verb: "patch"
           }
         ],
@@ -274,14 +290,6 @@
       patchOrCreate: {
         accepts: [
           {
-            arg: "hashkey",
-            description: "Model hashkey",
-            http: {
-              source: "path"
-            },
-            required: true,
-            type: "any"
-          }, {
             arg: "data",
             description: "Model instance data",
             http: {
@@ -295,7 +303,7 @@
         description: "Patch an existing model instance or insert a new one into the data source.",
         http: [
           {
-            path: "/:hashkey",
+            path: "/",
             verb: "patch"
           }
         ],
