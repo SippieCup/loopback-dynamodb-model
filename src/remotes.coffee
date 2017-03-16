@@ -33,14 +33,7 @@ module.exports = (Model) ->
 
   create:
     accepts: [
-      {
-        arg: "hashkey",
-        description: "Model hashkey"
-        http:
-          source: "path"
-        required: true
-        type: "any"
-      }
+      string
       {
         arg: "data"
         description: "Model instance data"
@@ -52,7 +45,7 @@ module.exports = (Model) ->
     accessType: "WRITE"
     description: "Create a new instance of the model and persist it into the data source."
     http:
-      path: "/:hashkey"
+      path: "/"
       verb: "post"
     returns:
       arg: "data"
@@ -365,14 +358,6 @@ module.exports = (Model) ->
   updateAll:
     accepts: [
       {
-        arg: "hashkey",
-        description: "Model hashkey"
-        http:
-          source: "path"
-        required: true
-        type: "any"
-      }
-      {
         arg: "where"
         description: "Criteria to match model instances"
         http:
@@ -393,7 +378,7 @@ module.exports = (Model) ->
     ]
     description: "Update instances of the model matched by where from the data source."
     http:
-      path: "/:hashkey/update"
+      path: "/update"
       verb: "post"
     returns:
       arg: "count"
@@ -404,14 +389,6 @@ module.exports = (Model) ->
   findOrCreate:
     description: 'Find else create a new instance of the model and persist it into the data source'
     accepts: [
-      {
-        arg: "hashkey",
-        description: "Model hashkey"
-        http:
-          source: "path"
-        required: true
-        type: "any"
-      }
       {
         arg: 'data'
         type: 'object'
@@ -427,4 +404,4 @@ module.exports = (Model) ->
       root: true
     http:
       verb: 'post'
-      path: '/:hashkey/findOrCreate'
+      path: '/findOrCreate'

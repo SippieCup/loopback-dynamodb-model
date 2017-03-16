@@ -37,15 +37,7 @@
       },
       create: {
         accepts: [
-          {
-            arg: "hashkey",
-            description: "Model hashkey",
-            http: {
-              source: "path"
-            },
-            required: true,
-            type: "any"
-          }, {
+          string, {
             arg: "data",
             description: "Model instance data",
             http: {
@@ -57,7 +49,7 @@
         accessType: "WRITE",
         description: "Create a new instance of the model and persist it into the data source.",
         http: {
-          path: "/:hashkey",
+          path: "/",
           verb: "post"
         },
         returns: {
@@ -382,14 +374,6 @@
       updateAll: {
         accepts: [
           {
-            arg: "hashkey",
-            description: "Model hashkey",
-            http: {
-              source: "path"
-            },
-            required: true,
-            type: "any"
-          }, {
             arg: "where",
             description: "Criteria to match model instances",
             http: {
@@ -409,7 +393,7 @@
         aliases: ["update"],
         description: "Update instances of the model matched by where from the data source.",
         http: {
-          path: "/:hashkey/update",
+          path: "/update",
           verb: "post"
         },
         returns: {
@@ -423,14 +407,6 @@
         description: 'Find else create a new instance of the model and persist it into the data source',
         accepts: [
           {
-            arg: "hashkey",
-            description: "Model hashkey",
-            http: {
-              source: "path"
-            },
-            required: true,
-            type: "any"
-          }, {
             arg: 'data',
             type: 'object',
             required: true,
@@ -446,7 +422,7 @@
         },
         http: {
           verb: 'post',
-          path: '/:hashkey/findOrCreate'
+          path: '/findOrCreate'
         }
       }
     };
