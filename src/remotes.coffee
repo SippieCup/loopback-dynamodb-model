@@ -257,7 +257,6 @@ module.exports = (Model) ->
         verb: "patch"
       }
     ]
-    isStatic: false
     returns:
       arg: "data"
       root: true
