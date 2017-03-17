@@ -220,7 +220,7 @@ module.exports = (Model) ->
       type: Model.modelName
 
   patchAttributes:
-    isStatic: false
+    
     accepts:[
       {
         arg: "hashkey",
