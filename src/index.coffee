@@ -3,7 +3,7 @@ mixin = require './mixin'
 module.exports = (app) ->
   registry = app.registry
 
-  Model = registry.getModel 'Model'
+  Model = registry.getModel 'PersistedModel'
   DynamoModel = Model.extend 'DynamoModel'
 
   registry.modelBuilder.mixins.define 'DynamoRemoting', mixin
