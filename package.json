@@ -1,6 +1,6 @@
 {
   "name": "loopback-dynamo-model",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "Loopback dynamo model to provide which endpoints to share ",
   "main": "dist/index.js",
   "scripts": {
