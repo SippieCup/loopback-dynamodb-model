@@ -220,49 +220,6 @@ module.exports = (Model) ->
       type: Model.modelName
 
   patchAttributes:
-    
-    accepts:[
-      {
-        arg: "hashkey",
-        description: "Model hashkey"
-        http:
-          source: "path"
-        required: true
-        type: "any"
-      }
-      {
-        arg: "sortkey",
-        description: "Model sortkey"
-        http:
-          source: "path"
-        required: true
-        type: "any"
-      }
-      {
-        arg: "data"
-        description: "An object of model property name/value pairs"
-        http:
-          source: "body"
-        type: "object"
-      }
-    ]
-    accessType: "WRITE"
-    aliases: [
-      "updateAttributes"
-    ]
-    description: "Patch attributes for a model instance and persist it into the data source."
-    http: [
-      {
-        path: "/:hashkey/:sortkey"
-        verb: "patch"
-      }
-    ]
-    returns:
-      arg: "data"
-      root: true
-      type: Model.modelName
-
-  patchOrCreate:
     accepts:[
       {
         arg: "data"
@@ -277,7 +234,7 @@ module.exports = (Model) ->
       "upsert"
       "updateOrCreate"
     ]
-    description: "Patch an existing model instance or insert a new one into the data source."
+    description: "Patch attributes for a model instance and persist it into the data source."
     http: [
       {
         path: "/"
