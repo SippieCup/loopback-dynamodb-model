@@ -1,6 +1,6 @@
-# loopback-base-model
+# loopback-Dynamo-model
 
-Loopback Base Model
+Loopback Dynamo Model
 
 * npm install loopback-dynamo-model --save
 * within server/server.js add
