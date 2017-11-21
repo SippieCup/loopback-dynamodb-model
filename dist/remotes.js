@@ -299,31 +299,6 @@
           type: Model.modelName
         }
       },
-      replaceOrCreate: {
-        accepts: [
-          {
-            arg: "data",
-            description: "Model instance data",
-            http: {
-              source: "body"
-            },
-            type: "object"
-          }
-        ],
-        accessType: "WRITE",
-        description: "Replace an existing model instance or insert a new one into the data source.",
-        http: [
-          {
-            path: "/replaceOrCreate",
-            verb: "post"
-          }
-        ],
-        returns: {
-          arg: "data",
-          root: true,
-          type: Model.modelName
-        }
-      },
       updateAll: {
         accepts: [
           {
